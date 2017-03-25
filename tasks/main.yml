@@ -114,23 +114,22 @@
       run_once: true
       when: consul_config is defined
 
+    - name: Write key locally to share with new servers
+      local_action: copy content="{{ consul_raw_key }}" dest=/tmp/consul_raw.key
+      become: no
+      when: consul_raw_key is defined and bootstrap_marker.stat.exists
+
+    - name: Read key for servers that require it
+      set_fact:
+        consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
+      when: consul_raw_key is not defined and bootstrap_marker.stat.exists
+
+    - name: Deleting key file
+      local_action: file path=/tmp/consul_raw.key state=absent
+      become: no
+      when: consul_raw_key is defined and bootstrap_marker.stat.exists
   no_log: true
   when: consul_raw_key is not defined and bootstrap_marker.stat.exists and (consul_node_role == "bootstrap" or consul_node_role == "server")
-
-- name: Write key locally to share with new servers
-  local_action: copy content="{{ consul_raw_key }}" dest=/tmp/consul_raw.key
-  become: no
-  when: consul_raw_key is defined and bootstrap_marker.stat.exists
-
-- name: Read key for servers that require it
-  set_fact:
-    consul_raw_key: "{{ lookup('file', '/tmp/consul_raw.key') }}"
-  when: consul_raw_key is not defined and bootstrap_marker.stat.exists
-
-- name: Deleting key file
-  local_action: file path=/tmp/consul_raw.key state=absent
-  become: no
-  when: consul_raw_key is defined and bootstrap_marker.stat.exists
 
 - block:
     - name: Generate gossip encryption key
