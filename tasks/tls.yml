@@ -1,7 +1,5 @@
 ---
-# File: tasks/tls.yml - TLS tasks for Consul
-
-- name: Create SSL directory
+- name: create SSL directory
   file:
     dest: "{{ consul_tls_dir }}"
     state: directory
@@ -10,7 +8,7 @@
     mode: 0755
 
 - block:
-  - name: Copy CA certificate
+  - name: copy CA certificate
     copy:
       src: "{{ consul_src_files }}/{{ consul_ca_crt }}"
       dest: "{{ consul_tls_dir }}/{{ consul_ca_crt }}"
@@ -18,7 +16,7 @@
       group: "{{ consul_group }}"
       mode: 0644
 
-  - name: Copy server certificate
+  - name: copy server certificate
     copy:
       src: "{{ consul_src_files }}/{{ consul_server_crt }}"
       dest: "{{ consul_tls_dir }}/{{ consul_server_crt }}"
@@ -26,7 +24,7 @@
       group: "{{ consul_group }}"
       mode: 0644
 
-  - name: Copy server key
+  - name: copy server key
     copy:
       src: "{{ consul_src_files }}/{{ consul_server_key }}"
       dest: "{{ consul_tls_dir }}/{{ consul_server_key }}"
@@ -36,7 +34,7 @@
 
   when: consul_copy_keys == true
 
-- name: Write TLS configuration
+- name: write TLS configuration
   template:
     src: config_tls.json.j2
     dest: "{{ consul_config_path }}/{{ item }}/config_tls.json"

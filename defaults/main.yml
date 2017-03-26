@@ -15,7 +15,7 @@ consul_zip_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/cons
 consul_checksum_file_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version}}_SHA256SUMS"
 consul_bin_path: "/usr/local/bin"
 consul_config_path: "/etc/consul.d"
-consul_data_path: "/var/consul"
+consul_data_path: "/var/lib/consul"
 consul_log_path: "/var/log/consul"
 consul_user: "consul"
 consul_group: "bin"
@@ -59,12 +59,6 @@ consul_copy_keys: true
 consul_verify_incoming: false
 consul_verify_outgoing: true
 consul_verify_server_hostname: false
-
-## Other Options
-consul_dnsmasq_enable: "{{ lookup('env','CONSUL_DNSMASQ_ENABLE') | default(false, true) }}"
-consul_iptables_enable: "{{ lookup('env','CONSUL_IPTABLES_ENABLE') | default(false, true) }}"
-
-## Distribution
 
 ### Consul
 consul_pkg: "consul_{{ consul_version }}_{{ consul_os }}_{{ consul_architecture }}.zip"

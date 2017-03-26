@@ -1,7 +1,9 @@
 # Contributors
 
-Thank you to all these fine folks for helping with ansible-consul!
+Based on the work of Brian Shumate.
 
+Original contributors:
+- [@brianshumate](https://github.com/brianshumate)
 - [@bscott](https://github.com/bscott)
 - [@oliverprater](https://github.com/oliverprater)
 - [@Rodjers](https://github.com/Rodjers)

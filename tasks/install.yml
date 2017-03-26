@@ -1,6 +1,4 @@
 ---
-# File: tasks/install.yml - package installation tasks for Consul
-
 - name: OS packages
   package:
     name: "{{ item }}"
@@ -8,14 +6,14 @@
   with_items: "{{ consul_os_packages }}"
   tags: installation
 
-- name: Check consul version
+- name: check consul version
   shell: consul --version | grep -Po 'v\K([0-9]*\.[0-9]*\.[0-9]*)'
   changed_when: false
   ignore_errors: true
   register: consul_installed
 
 - block:
-    - name: Check Consul package checksum file
+    - name: check Consul package checksum file
       become: no
       connection: local
       stat:
@@ -24,7 +22,7 @@
       register: consul_checksum
       tags: installation
 
-    - name: Get Consul package checksum file
+    - name: get Consul package checksum file
       become: no
       connection: local
       get_url:
@@ -34,7 +32,7 @@
       tags: installation
       when: consul_checksum.stat.exists == False
 
-    - name: Get Consul package checksum
+    - name: get Consul package checksum
       become: no
       connection: local
       shell: "grep {{ consul_pkg }} {{ role_path }}/files/consul_{{ consul_version }}_SHA256SUMS"
@@ -42,7 +40,7 @@
       register: consul_sha256
       tags: installation
 
-    - name: Check Consul package file
+    - name: check Consul package file
       become: no
       connection: local
       stat:
@@ -51,7 +49,7 @@
       register: consul_package
       tags: installation
 
-    - name: Download Consul
+    - name: download Consul
       become: no
       connection: local
       get_url:
@@ -63,7 +61,7 @@
       tags: installation
       when: consul_package.stat.exists == False
 
-    - name: Unarchive Consul
+    - name: unarchive Consul
       become: no
       connection: local
       unarchive:
@@ -73,7 +71,7 @@
       run_once: true
       tags: installation
 
-    - name: Install Consul
+    - name: install Consul
       copy:
         src: "{{ role_path }}/files/consul"
         dest: "{{ consul_bin_path }}/consul"
@@ -83,7 +81,7 @@
       tags: installation
   when: consul_installed.stdout != consul_version
 
-- name: Cleanup
+- name: cleanup
   become: no
   connection: local
   file:
