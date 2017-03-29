@@ -4,12 +4,18 @@
     msg: "The ethernet interface specified by consul_iface was not found."
   when: consul_iface not in ansible_interfaces
 
+- name: add Consul group
+  group:
+    name: "{{ consul_group }}"
+    state: present
+    system: true
+
 - name: add Consul user
   user:
     name: "{{ consul_user }}"
     comment: "Consul user"
     group: "{{ consul_group }}"
-    system: yes
+    system: true
 
 - name: OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
