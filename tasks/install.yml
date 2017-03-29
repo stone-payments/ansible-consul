@@ -7,7 +7,7 @@
   tags: installation
 
 - name: check consul version
-  shell: consul --version | grep -Po 'v\K([0-9]*\.[0-9]*\.[0-9]*)'
+  shell: /usr/local/go/bin/consul --version | grep -Po 'v\K([0-9]*\.[0-9]*\.[0-9]*)'
   changed_when: false
   ignore_errors: true
   register: consul_installed
