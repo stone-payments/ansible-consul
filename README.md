@@ -1,4 +1,4 @@
-stone.consul
+stone-payments.consul
 ============
 
 Ansible role to setup a Consul agent/server
