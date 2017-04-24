@@ -2,8 +2,8 @@
 galaxy_info:
   author: Bernardo Donadio
   description: Consul cluster role
-  company: Buy4 Processamento de Pagamentos S.A.
-  license: BSD
+  company: Stone Payments
+  license: MIT
   min_ansible_version: 2.1.0.0
   platforms:
   - name: EL
